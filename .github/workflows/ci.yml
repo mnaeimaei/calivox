@@ -1,0 +1,28 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "${{ matrix.python }}"}
+      - name: Install (CPU PyTorch)
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install -e ".[dev]"
+      - name: Tests
+        env: {OMP_NUM_THREADS: "2"}
+        run: pytest -q
+      - name: End-to-end smoke run on phantoms
+        run: |
+          calivox synth --out /tmp/ph --n 60
+          sed -e "s#data/manifest.csv#/tmp/ph/manifest.csv#" -e "s#data/occipital_mask.nii.gz#/tmp/ph/occipital_mask.nii.gz#g" \
+              examples/datscan-phantoms/config.yaml > /tmp/ph/config.yaml
+          calivox cv /tmp/ph/config.yaml --model simple3d --scenario S2 --epochs 2
+          calivox calibrate /tmp/ph/runs
+          calivox freeze /tmp/ph/runs/simple3d__S2 --out /tmp/ph/bundle
+          calivox verify /tmp/ph/bundle --manifest /tmp/ph/manifest.csv

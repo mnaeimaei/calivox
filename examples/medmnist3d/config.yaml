@@ -1,0 +1,31 @@
+# Use case: MedMNIST3D (e.g. OrganMNIST3D, 11 organ classes) — multi-class, no DaT-specific steps.
+# Data: see prepare.py. Volumes are already normalised to [0, 255] and the same size,
+# so preprocessing is a min-max rescale only.
+name: organmnist3d
+task: {type: multiclass}
+
+data:
+  manifest: data/manifest.csv
+  id: id
+  label: label
+  inputs: {volume: path}
+
+preprocess:
+  volume:
+    - {op: normalize, method: minmax}
+
+scenarios:
+  plain: {inputs: [volume]}
+  aug: {inputs: [volume], augment: true}
+
+models:
+  simple3d: {name: simple3d}
+  resnet3d: {name: resnet3d, params: {depth: 18}}
+  r3d18:    {name: r3d18, pretrained: kinetics400}
+
+cv: {folds: 5, seed: 2026, validation: inner}
+training: {epochs: 40, batch_size: 32, learning_rate: 3.0e-4, early_stopping_patience: 8}
+calibration: {methods: [none, temperature], folds: 5}
+
+output_dir: runs
+cache_dir: cache

@@ -1,0 +1,60 @@
+# Use case: DaT-SPECT-like phantoms (synthetic), binary normal vs pathologic.
+# Data:  calivox synth --out examples/datscan-phantoms/data --n 400
+# Mirrors the DaT-SPECT case study: occipital-reference normalisation, a bilateral
+# striatal ROI, whole / ROI / whole+ROI inputs with and without augmentation.
+name: datscan-phantoms
+description: 400 synthetic DaT-SPECT-like volumes from 3 sites, binary normal vs pathologic.
+
+task: {type: binary, positive: pathologic}
+
+data:
+  manifest: data/manifest.csv
+  id: subject_id
+  label: label
+  group: site
+  inputs:
+    whole: scan_path              # both inputs come from the same scan,
+    roi: scan_path                # with different preprocessing
+  depth_axis: z
+
+preprocess:
+  whole:                          # whole brain at 8 mm (coarse, cheap on CPU)
+    - {op: normalize, method: reference_mask, mask: data/occipital_mask.nii.gz, stat: mean}
+    - {op: resample, spacing: [8.0, 8.0, 8.0]}
+    - {op: crop, mode: center, shape: [24, 24, 20]}
+  roi:                            # bilateral striatum at full 4 mm resolution
+    - {op: normalize, method: reference_mask, mask: data/occipital_mask.nii.gz, stat: mean}
+    - {op: crop, mode: peak, shape: [24, 16, 12], search: [[8, 40], [14, 40], [10, 30]], top_fraction: 0.01}
+
+scenarios:                        # the six scenarios of the DaT-SPECT study
+  S1: {inputs: [whole]}
+  S2: {inputs: [roi]}
+  S3: {inputs: [whole, roi]}
+  S4: {inputs: [whole], augment: true}
+  S5: {inputs: [roi], augment: true}
+  S6: {inputs: [whole, roi], augment: true}
+
+models:                           # CPU-sized versions of the study's model families
+  simple3d:  {name: simple3d, params: {width: 16}}
+  resnet3d:  {name: resnet3d}
+  r3d18:     {name: r3d18}
+  slice2p5d: {name: slice2p5d}
+  swin3d_t:  {name: swin3d_t}
+
+cv: {folds: 5, seed: 2026, validation: inner, inner_fraction: 0.15}
+
+training:
+  epochs: 30
+  batch_size: 16
+  learning_rate: 3.0e-4
+  early_stopping_patience: 6
+  plateau_patience: 3
+  warmup_epochs: 5
+  num_threads: 2
+  cache_in_memory: true
+
+calibration: {methods: [none, temperature, platt, isotonic], folds: 5}
+ensemble: {max_members: 5, candidates: 12}
+
+output_dir: runs
+cache_dir: cache

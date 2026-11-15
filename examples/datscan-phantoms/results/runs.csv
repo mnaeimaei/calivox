@@ -1,0 +1,15 @@
+run,model,inputs,augment,log_loss,auroc,brier,ece,calibration,calibrated_log_loss,calibrated_ece,train_seconds
+resnet3d__S5,resnet3d,roi,True,0.2553,0.9675,0.0616,0.0459,temperature,0.2244,0.0352,1652.6
+simple3d__S6,simple3d,whole+roi,True,0.2802,0.9541,0.0846,0.0467,temperature,0.2718,0.0344,182.6
+simple3d__S3,simple3d,whole+roi,False,0.3057,0.9496,0.0916,0.062,temperature,0.2864,0.051,127.3
+simple3d__S4,simple3d,whole,True,0.2962,0.9576,0.0797,0.0353,temperature,0.2918,0.0352,207.7
+resnet3d__S2,resnet3d,roi,False,0.3203,0.9478,0.0931,0.0657,platt,0.2996,0.0631,995.8
+simple3d__S1,simple3d,whole,False,0.3418,0.9405,0.0984,0.0659,temperature,0.3171,0.052,103.4
+r3d18__S5,r3d18,roi,True,0.3951,0.9355,0.1045,0.0762,temperature,0.3522,0.0652,1067.3
+slice2p5d__S4,slice2p5d,whole,True,0.3567,0.9331,0.1047,0.0504,none,0.3567,0.0504,798.6
+simple3d__S2,simple3d,roi,False,0.4371,0.9088,0.1229,0.0917,temperature,0.3951,0.06,49.3
+simple3d__S5,simple3d,roi,True,0.4324,0.9089,0.1213,0.0671,temperature,0.3991,0.0666,69.5
+slice2p5d__S2,slice2p5d,roi,False,0.4824,0.8577,0.152,0.1045,temperature,0.4531,0.0739,354.1
+slice2p5d__S5,slice2p5d,roi,True,0.4738,0.8637,0.1466,0.0624,none,0.4738,0.0624,276.8
+r3d18__S2,r3d18,roi,False,0.5867,0.8347,0.1722,0.1272,temperature,0.5344,0.1074,812.5
+swin3d_t__S2,swin3d_t,roi,False,0.6455,0.6526,0.2284,0.0758,none,0.6455,0.0758,507.7

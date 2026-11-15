@@ -1,0 +1,13 @@
+{
+  "resnet3d__S5": {
+    "subjects": 400,
+    "max_abs_logit_diff": 0.0,
+    "equivalent": true
+  },
+  "simple3d__S6": {
+    "subjects": 400,
+    "max_abs_logit_diff": 0.0,
+    "equivalent": true
+  },
+  "all_equivalent": true
+}

@@ -1,0 +1,106 @@
+{
+  "members": [
+    {
+      "run": "resnet3d__S5",
+      "dir": "examples/datscan-phantoms/runs/resnet3d__S5",
+      "calibration": "temperature",
+      "calibrator": {
+        "method": "temperature",
+        "params": {
+          "T": 1.6304803317568064
+        }
+      },
+      "single_log_loss": 0.2244416671092332
+    },
+    {
+      "run": "simple3d__S6",
+      "dir": "examples/datscan-phantoms/runs/simple3d__S6",
+      "calibration": "temperature",
+      "calibrator": {
+        "method": "temperature",
+        "params": {
+          "T": 1.3077281010166133
+        }
+      },
+      "single_log_loss": 0.271839112717211
+    }
+  ],
+  "final_temperature": 0.8250292922024486,
+  "candidates": [
+    "resnet3d__S5",
+    "simple3d__S6",
+    "simple3d__S3",
+    "simple3d__S4",
+    "resnet3d__S2",
+    "simple3d__S1",
+    "r3d18__S5",
+    "slice2p5d__S4",
+    "simple3d__S2",
+    "simple3d__S5",
+    "slice2p5d__S2",
+    "slice2p5d__S5"
+  ],
+  "cross_fitted": {
+    "log_loss": 0.2005089028257513,
+    "auroc": 0.975201190746487,
+    "auprc": 0.9827155311622284,
+    "brier": 0.05558891257577876,
+    "ece": 0.023018532234458308,
+    "balanced_accuracy": 0.9308004742803804,
+    "sensitivity": 0.9223744292237442,
+    "specificity": 0.9392265193370166,
+    "precision": 0.9483568075117371,
+    "f1": 0.9351851851851852,
+    "threshold": 0.5,
+    "confusion_matrix": [
+      [
+        170,
+        11
+      ],
+      [
+        17,
+        202
+      ]
+    ],
+    "n": 400,
+    "positive_rate": 0.5475
+  },
+  "best_single": {
+    "run": "resnet3d__S5",
+    "log_loss": 0.2244416671092332
+  },
+  "selection": "greedy",
+  "nested": {
+    "log_loss": 0.23972404098613304,
+    "auroc": 0.9699286056661369,
+    "auprc": 0.9797904684812312,
+    "brier": 0.0590168541514142,
+    "ece": 0.02762962012401238,
+    "balanced_accuracy": 0.9345215570523979,
+    "sensitivity": 0.91324200913242,
+    "specificity": 0.9558011049723757,
+    "precision": 0.9615384615384616,
+    "f1": 0.936768149882904,
+    "threshold": 0.5,
+    "confusion_matrix": [
+      [
+        173,
+        8
+      ],
+      [
+        19,
+        200
+      ]
+    ],
+    "n": 400,
+    "positive_rate": 0.5475
+  },
+  "selection_frequency": {
+    "resnet3d__S5": 1.0,
+    "simple3d__S6": 0.6,
+    "simple3d__S4": 0.4,
+    "simple3d__S1": 0.4,
+    "slice2p5d__S4": 0.2,
+    "resnet3d__S2": 0.2
+  }
+}
